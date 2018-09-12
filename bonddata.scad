@@ -1,0 +1,25 @@
+data = [
+    // Kills, Girls, Profit (infl. adj.), Metacritic, Year, Title, Actor
+    [5,4,444934273.33,0.98,1962,"Dr. No","Connery"],
+    [6,2,577494705.15,0.96,1963,"From Russia With Love","Connery"],
+    [3,4,903138669.42,0.96,1964,"Goldfinger","Connery"],
+    [14,3,965028303.4,0.89,1965,"Thunderball","Connery"],
+    [17,4,702343334.56,0.7,1967,"You Only Live Twice","Connery"],
+    [6,3,463080326.18,0.82,1969,"On Her Majesty's Secret Service","Lazenby"],
+    [6,1,617006831.49,0.67,1971,"Diamonds Are Forever","Connery"],
+    [4,2,801749190.48,0.64,1973,"Live and Let Die","Moore"],
+    [1,3,422065520,0.52,1974,"The Man with the Golden Gun","Moore"],
+    [11,3,649752570.67,0.79,1977,"The Spy Who Loved Me","Moore"],
+    [12,3,568406673.83,0.64,1979,"Moonraker","Moore"],
+    [8,3,423301389.06,0.69,1981,"For Your Eyes Only","Moore"],
+    [12,2,369585259.89,0.47,1983,"Octopussy","Moore"],
+    [3,4,262423834.4,0.39,1985,"A View to Kill","Moore"],
+    [4,1,305425811.94,0.73,1987,"The Living Daylights","Dalton"],
+    [7,3,211208977.75,0.71,1989,"Licence to Kill","Dalton"],
+    [26,3,441212991.34,0.8,1995,"Goldeneye","Brosnan"],
+    [17,3,318905827.24,0.54,1997,"Tomorrow Never Dies","Brosnan"],
+    [17,3,313028712,0.51,1999,"The World is Not Enough","Brosnan"],
+    [16,3,371163028.48,0.59,2002,"Die Another Day","Brosnan"],
+    [10,2,561152535.24,0.94,2006,"Casino Royale","Craig"],
+    [15,2,381017077.89,0.65,2008,"Quantum of Solace","Craig"]
+];
