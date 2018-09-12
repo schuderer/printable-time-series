@@ -2,7 +2,7 @@
 
 3D-Printable Data Visualization
 
-The current example data shows how James Bond movies have changed over time.
+The current example data shows how James Bond movies have changed over time. See how it looks at this thingiverse entry: https://www.thingiverse.com/thing:3097193
 
 timeline.scad can be used to create a time/sequence-based visualization
 that is 3D-printable. The visualisation itself is called "data part"
