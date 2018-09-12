@@ -1,1 +1,57 @@
 # printable-time-series
+
+A 3D-Printable Data Visualization Experiment, currently showing how James Bond movies have changed over time.
+
+This file can be used to create a time/sequence-based visualization
+that is 3D-printable. The visualisation itself is called "data part"
+in the code.
+
+This file can also be used to create a base/display stand for
+the data part, including axes. This base can either be 3D printed
+as well, or, cut from materials such as acrylic (recommended).
+
+The functionality depends on Rudolf Huttary's splines library
+(slightly modified) for smoothing between the data points:
+https://www.thingiverse.com/thing:1208001
+(If you prefer no smoothing, you can just provide the
+original data everywhere where it uses "dataSmoothed" now)
+
+You need to provide your data in scad format and
+link it in the parameters section below.
+
+The parameters section contains information on how
+to create such a file from your data and what the
+parameters mean.
+
+Here are the steps to create all the parts:
+1. Set highQuality to true
+
+2. Create a cached data part:
+2.1 Set generateDataPart=true, generateBase=false
+2.2 Set holesForLabels=0
+2.3 Render (takes ±30min) & save stl in same folder as this file
+2.4 Change the file name in module dataPartCached() to your STL file name
+
+3. Create the real data part (skip and use previous STL if you don't want label holes)
+3.1 Set generateDataPart=true, generateBase=false
+3.2 Set holesForLabels=0.75 (or whatever RADIUS you would like)
+3.3 Render (takes ±30min) & save stl
+3.4 For printing, I recommend orienting it so most arcs are as vertical as
+    possible. For  support here and there, and some conventional supports
+    at the bottomsupports, I use tree supports from Meshmixer, adding
+    a little extra for extra stability.
+
+4. Create the base (set generateDataPart=false)
+4A. Option A: Laser-cut base (or similar, recommended)
+4A.1 Set generateBase=true,  svgEngrave=true,  svgCut=true
+4A.2 Tweak parameters given to cradleSlots2D() (needs same params everywhere!)
+4A.3 Set generateBase=true,  svgEngrave=true,  svgCut=false
+4A.4 Render & export svg file for engraving/marking
+4A.5 Set generateBase=true,  svgEngrave=false,  svgCut=true
+4A.6 Render & export svg file for engraving/marking
+4A.7 Optionally post-process in Ideamaker (arrange, keep/remove fill color, etc)
+4B. Option B: 3D-printed base
+4B.1 Set generateBase=true,  svgEngrave=false,  svgCut=false
+4B.2 Tweak parameters given to cradleSlots2D() (needs same params everywhere!)
+4B.3 Render (takes ±30min) & save stl
+4B.4 Prints well without supports, though pillars might be a bit flimsy
