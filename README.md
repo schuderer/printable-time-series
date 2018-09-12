@@ -2,11 +2,11 @@
 
 A 3D-Printable Data Visualization Experiment, currently showing how James Bond movies have changed over time.
 
-This file can be used to create a time/sequence-based visualization
+timeline.scad can be used to create a time/sequence-based visualization
 that is 3D-printable. The visualisation itself is called "data part"
 in the code.
 
-This file can also be used to create a base/display stand for
+It can also be used to create a base/display stand for
 the data part, including axes. This base can either be 3D printed
 as well, or, cut from materials such as acrylic (recommended).
 
@@ -55,3 +55,6 @@ Here are the steps to create all the parts:
 4B.2 Tweak parameters given to cradleSlots2D() (needs same params everywhere!)
 4B.3 Render (takes ±30min) & save stl
 4B.4 Prints well without supports, though pillars might be a bit flimsy
+
+
+Thanks to Kay Schröder for the data and to Birgit Stolte for many things, particularly getting me up to speed on the topic of laser cutting.
