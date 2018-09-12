@@ -2,7 +2,7 @@
 
 3D-Printable Data Visualization
 
-The current example data shows how James Bond movies have changed over time. See how it looks at this thingiverse entry: https://www.thingiverse.com/thing:3097193
+The current example data shows how James Bond movies have changed over time. See how it looks at this thingiverse entry: https://www.thingiverse.com/thing:3097193 (there, you'll also find information on how to print and assemble)
 
 timeline.scad can be used to create a time/sequence-based visualization
 that is 3D-printable. The visualisation itself is called "data part"
@@ -58,5 +58,6 @@ Here are the steps to create all the parts:
         3. Render (takes ±30min) & save stl
         4. Prints well without supports, though pillars might be a bit flimsy
 
+For information on how to print and assemble the results, see https://www.thingiverse.com/thing:3097193.
 
 Thanks to Kay Schröder for the data and to Birgit Stolte for many things, particularly getting me up to speed on the topic of laser cutting.
