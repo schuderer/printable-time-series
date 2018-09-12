@@ -1,6 +1,8 @@
 # printable-time-series
 
-A 3D-Printable Data Visualization Experiment, currently showing how James Bond movies have changed over time.
+3D-Printable Data Visualization
+
+The current example data shows how James Bond movies have changed over time.
 
 timeline.scad can be used to create a time/sequence-based visualization
 that is 3D-printable. The visualisation itself is called "data part"
@@ -14,12 +16,12 @@ The functionality depends on Rudolf Huttary's splines library
 (slightly modified) for smoothing between the data points:
 https://www.thingiverse.com/thing:1208001
 (If you prefer no smoothing, you can just provide the
-original data everywhere where it uses "dataSmoothed" now)
+original data everywhere where the code uses "dataSmoothed" now)
 
 You need to provide your data in scad format and
-link it in the parameters section below.
+link it in the parameters section.
 
-The parameters section contains information on how
+The parameters section of timeline.scad contains information on how
 to create such a file from your data and what the
 parameters mean.
 
