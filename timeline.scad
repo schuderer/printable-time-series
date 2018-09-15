@@ -4,7 +4,7 @@
 // A 3D-Printable Data Visualization Experiment
 //
 // Andreas Schuderer, created 6 August 2018
-// Last modified 12 September 2018
+// Last modified 15 September 2018
 //
 // Thanks to Kay Schröder for the data
 // and to Birgit Stolte for many things,
@@ -12,8 +12,8 @@
 // the topic of laser cutting.
 ///////////////////////////////////////////////
 
-// Get this library here: https://github.com/schuderer/nsplines
-include <splines/splines.scad>
+// Get the tjw-scad library here: https://github.com/teejaydub/tjw-scad
+use <tjw-scad/spline.scad>
 
 //////////// How To Use ///////////////////////
 
@@ -27,9 +27,9 @@ This file can also be used to create a base/display stand for
 the data part, including axes. This base can either be 3D printed
 as well, or, cut from materials such as acrylic (recommended).
 
-The functionality depends on Rudolf Huttary's splines library
-(slightly modified) for smoothing between the data points:
-https://www.thingiverse.com/thing:1208001
+The functionality depends on teejaydub's splines implementation
+for smoothing between the data points:
+https://github.com/teejaydub/tjw-scad
 (If you prefer no smoothing, you can just provide the
 original data everywhere where it uses "dataSmoothed" now)
 
@@ -78,13 +78,13 @@ Here are the steps to create all the parts:
 
 // False is quicker to work with. True means high quality.
 // Set this to true before rendering!
-highQuality = false;
+highQuality = true;
 
 // What parts to create
 generateDataPart = true;
 generateBase = false; // Only either render (or print) the data part or the base, not both at the same time
-svgEngrave = true; // Base only: generate engraving pattern instead of 3d printable base
-svgCut = true; // Base only: generate cutting pattern instead of 3d printable base
+svgEngrave = false; // Base only: generate engraving pattern instead of 3d printable base
+svgCut = false; // Base only: generate cutting pattern instead of 3d printable base
 
 // Text
 font = "Liberation Sans:style=Bold"; //"Stencil:style=Regular";
@@ -125,8 +125,6 @@ xMax = "auto"; // value or "auto" (= minimum value found in data)
 yMax = "auto";
 zMax = 1.1;
 
-radiusScale = 1/6000000; // a value of 1 times this factor will be represented as one square millimeter of cross-sectional area, because A = r^2 * pi
-
 // Physical dimensions
 
 // data part specific/general
@@ -138,6 +136,7 @@ boardWidth=160; // along x axis
 boardDepth=120; // along y axis
 zAxisHeight = 90; // only relevant for svg base
 zAxisWidth = fontSize*4; // only relevant for svg base
+radiusScale = 1/7500000; // a value of 1 times this factor will be represented as one square millimeter of cross-sectional area, because A = r^2 * pi
 materialThickness = 4; // thickness of svg-cut material
 slotLength = 6; // length of assembly slots in svg-cut material (if something stops working, this number might be too high with respect to the other dimensions)
 
@@ -154,14 +153,14 @@ embossHeight=0.5; // only relevant for 3D printable base
 
 // In order to create the base, you need to export the data part as STL file
 // and then change this file name accordingly. This speeds up things a lot.
-module dataPartCached() import("timeline3.2_no_label_holes.stl");
+module dataPartCached() import("timeline3.3_no_label_holes.stl");
 
 //////////// Derived Parameters ///////////////////////
 
-smootheSteps = highQuality ? 15 : 3;
+subdivisions = highQuality ? 4 : 2;
 
 // todo: get only mapped data (and so that we don't do a lookup inside the lookup later)
-smoothedData = nSplineKeepOrig(getCols(data, [0,1,2,3]), len(data)*smootheSteps);
+smoothedData = smooth(getCols(data, [0,1,2,3]), subdivisions, false);
 
 material = materialThickness/compensateForScaling;
 filletR = material;
@@ -197,6 +196,31 @@ function map(x, minA, maxA, minB, maxB) =
 */
 
 //////////// Rendering ////////////////////////////////
+                        
+//module dataPartCached() import("timeline3.3grob.stl");
+//projection(cut=true) translate([-20,-100,-50]) dataPartCached();
+
+//echo(smoothedData);
+/*translate(coords(smoothedData[0])) sphere(3);
+translate(coords(smoothedData[1])) sphere(3);
+translate(coords(smoothedData[2])) sphere(3);
+translate(coords(smoothedData[3])) sphere(3);
+translate(coords(smoothedData[4])) sphere(3);
+translate(coords(smoothedData[5])) sphere(3);
+translate(coords(smoothedData[6])) sphere(3);
+translate(coords(smoothedData[7])) sphere(3);
+translate(coords(smoothedData[8])) sphere(3);
+translate(coords(smoothedData[9])) sphere(3);*/
+/*for (i=[0:1:len(smoothedData)-1]) {
+    p = coords(smoothedData[i]);
+    if (i%2==0)
+        translate(p) sphere(3);
+    else
+        color([0,0,1]) translate(p) sphere(3, $fn=10);
+}*/ // works when re-imported as stl in lo-q
+//dataPoints(data, smoothedData); // works when re-imported as stl in lo-q
+//dataSausage(smoothedData); // works when re-imported as stl in lo-q
+//dataPart(data, smoothedData); // DOES NOT WORK when re-imported as stl in lo-q
 
 
 
@@ -265,31 +289,16 @@ module zAxis2DSlots() {
 }
 
 
-//smoothedDataForSupport = nSpline(getCols(data, [0,1,2,3]), len(data)*(highQuality?30:3));
-//placeWalls(smoothedDataForSupport, width=2, steps=10, arc=3);
-//placePillars(smoothedDataForSupport, 2);
-
-/*    for (i=[0:1:len(smoothedData)-2]) {
-        this = smoothedData[i];
-        next = smoothedData[i+1];
-        thisPos = smoothedPositions[i]; //coords(this);
-        nextPos = smoothedPositions[i+1]; //coords(next);
-        radiusFactor = 1.5;
-        thisRad = radius(this)*radiusFactor;
-        nextRad = radius(next)*radiusFactor;
-        hull() {
-            translate([thisPos[0], thisPos[1], thisPos[2]]) sphere(thisRad);
-            translate([nextPos[0], nextPos[1], nextPos[2]]) sphere(nextRad);
-        }
-    }
-}*/
-
-
 
 //////////// Functions & Modules /////////////
 
+function dist(a,b) = sqrt(pow(a[0]-b[0],2)+pow(a[1]-b[1],2)+pow(a[2]-b[2],2));
+function debug(s) = search(s,[]);
+function transpose(m) =
+  [ for(j=[0:len(m[0])-1]) [ for(i=[0:len(m)-1]) m[i][j] ] ];
+
 function nextSmoothed(origIdx, smoothedData, step=1) =
-    let(newIdx = origIdx * smootheSteps + step)
+    let(newIdx = origIdx * pow(2,subdivisions) + step)
     newIdx <= len(smoothedData)-1 ? smoothedData[newIdx] : smoothedData[len(smoothedData)-1];
 
 //https://en.wikibooks.org/wiki/OpenSCAD_User_Manual/The_OpenSCAD_Language#rotate
@@ -299,13 +308,6 @@ function rotation(p1, p2) =
         b = acos(z/length),
         c = atan2(y, x))
     [0, b, c];
-
-/*function rotation2(p1, p2) = 
-    let(x=p2[0]-p1[0], y=p2[1]-p1[1], z=p2[2]-p1[2],
-        rotx = -atan2(y, z),
-        roty = z>=0 ? atan2( x * cos(rotx), z ) : -atan2( x * cos(rotx), -z ),
-        rotz = atan2( cos(rotx), sin(rotx) * sin(roty) ))
-    [rotx, roty, rotz];*/
 
 function getCols(matrix, indices) =
     [for (row=matrix)
@@ -322,12 +324,9 @@ function findPointsBelow(pointIndex, inPoints, tolerance=1, ignoreNeighbors=true
             p2[2] <  p[2]) p2
      ];
 
-//function coords(p) = [p[0]*10,p[1]*40,p[3]*150];
-//function radius(p) = sqrt(p[2]/30000000); // as A = r^2 * pi
-
 // plot one single point in the (smoothed) path
 module point(p)
-    sphere(radius(p), $fn=highQuality?25:10);
+    sphere(radius(p), $fn=highQuality?20:10);
 
 // plot one "real" data point (a non-smoothed point), have it point in the direction of the next (smoothed) point. If you only use non-smoothed data, provide the same array for data and smoothedData.
 module dataPoint(i, data, smoothedData) {
@@ -345,9 +344,9 @@ module dataPoint(i, data, smoothedData) {
             tipRad = r*1.5;
             totalHeight = cylHeight + tipRad;
             translate([0,0,cylHeight/2-totalHeight/2]) { // center whole thing
-                cylinder(h=cylHeight, r1=baseRad, r2=tipRad, center=true, $fn=highQuality?25:10);
+                cylinder(h=cylHeight, r1=baseRad, r2=tipRad, center=true, $fn=highQuality?20:10);
                 translate([0,0,cylHeight/2]) // move tip up
-                    sphere(tipRad, center=true, $fn=highQuality?25:10);
+                    sphere(tipRad, center=true, $fn=highQuality?20:10);
             }
         }
 }
@@ -387,7 +386,7 @@ module dataPart(data, smoothedData) {
                 p = coords(d);
                 r = radius(d);
                 translate(p)
-                    cylinder(h=2*r*3, r=holes, center=true, $fn=highQuality?25:10);
+                    cylinder(h=2*r*3, r=holes, center=true, $fn=highQuality?16:8);
             }
     }
 }
@@ -606,6 +605,7 @@ module cradles2D(data, minDistance=20, step=2, arrangeDistance=45, tolerance=0.5
         thisPos = p[thisIndex];
         r = radius(data[thisIndex]);
         h = thisPos[2];
+        
         // Columns
         translate([(i+0.5)*arrangeDistance,-50,0]) { // arrange the pieces
             if (svgCut) difference() {
@@ -636,6 +636,9 @@ module cradles2D(data, minDistance=20, step=2, arrangeDistance=45, tolerance=0.5
             // help find matching cradles and slots
             #translate([0,-h+1,0]) text(str(i), size=4, font=font, halign="center");
         }
+        
+        echo("cutting out piece",i);
+        
         // 90 degrees cradle top pieces
         translate([(i+0.5)*arrangeDistance,-material,0]) // arrange the pieces
             if (svgCut) difference() {
