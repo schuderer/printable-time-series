@@ -12,11 +12,11 @@ It can also be used to create a base/display stand for
 the data part, including axes. This base can either be 3D printed
 as well, or, cut from materials such as acrylic (recommended).
 
-The functionality depends on Rudolf Huttary's splines library
-(slightly modified) for smoothing between the data points:
-https://www.thingiverse.com/thing:1208001
+The functionality depends on teejaydub's splines implementation
+for smoothing between the data points:
+https://github.com/teejaydub/tjw-scad
 (If you prefer no smoothing, you can just provide the
-original data everywhere where the code uses "dataSmoothed" now)
+original data everywhere where it uses "dataSmoothed" now)
 
 You need to provide your data in scad format and
 link it in the parameters section.
